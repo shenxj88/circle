@@ -1,0 +1,22 @@
+page{
+  background: #333333;
+}
+.content{
+  height: 100rpx;
+  width: 55%;
+  margin: 0 auto;
+  margin-top: 500rpx;
+  text-align: center;
+  line-height: 100rpx;
+  border-radius: 20rpx;
+}
+.content button{
+  background-color: var(--themeColor);
+  color: #fff;
+  font-size: 40rpx;
+}
+.content .icon-weixin1{
+  font-size: 50rpx;
+  display: inline-block;
+  padding-right: 20rpx;
+}

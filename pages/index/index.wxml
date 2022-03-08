@@ -1,0 +1,88 @@
+<mp-navigation-bar back="{{false}}" title="朋友圈" show="true" background="#fff">
+    <image slot="left" src="../../img/publish.png" class="go-pubish" bindtap="goPublish">
+    </image>
+    <image slot="left" src="../../img/refresh.png" class="refresh" bindtap="refresh" animation="{{animation}}"></image>
+</mp-navigation-bar>
+<view class="item" wx:for="{{list}}" wx:index="index" wx:key="item">
+     <!-- 头像 -->
+   <view class="left">
+     <image class="avatar" src="{{item.userInfo.avatarUrl}}"></image>
+   </view>
+   <!-- 朋友圈内容 -->
+   <view class="right">
+      <view class="nickname">{{item.userInfo.nickName}}</view>
+      <view class="content">{{item.content}}</view>
+      <view class="image-list">
+         <image class="image"  wx:for-items="{{item.images}}" wx:for-item="image"  wx:key="item" src="{{image}}"></image>
+      </view>
+      <view class="time-area">
+         <view class="time">{{item.time}}</view>
+         <view>
+            <image class="operation-btn" src="../../img/operation-btn.png" 
+            catchtap="showOperationPannel" data-index="{{index}}">
+            </image>
+            <view class="operation-pannel" wx:if="{{showOperationPannelIndex == index}}">
+                <view class="tab" catchtap="clickLove" data-index="{{index}}">
+                   <image class="image" src="../../img/love.png"></image>
+                   <text wx:if="{{item.isLove}}">取消</text>
+                   <text wx:else>赞</text>
+                </view>
+                <view class="tab" catchtap="clickComment" data-index="{{index}}">
+                   <image class="image" src="../../img/comment.png"></image>
+                   <text>评论</text>
+                </view>
+            </view>
+         </view>
+      </view>
+      <!-- 点赞评论区域 -->
+      <view class="love-comment">
+        <!-- 点赞 -->
+          <view class="love" wx:if="{{item.loveList.length>0}}">
+            <image class="love-icon" src="../../img/love_select.png"></image>
+            <text class="love-nickname" wx:for-items="{{item.loveList}}" wx:for-item="love">{{love.nickName}}</text>
+          </view>
+          <!-- 评论 -->
+          <view class="comment" wx:if="{{item.commentList.length>0}}">
+				<view wx:for-items="{{item.commentList}}" wx:for-item="comment" wx:for-index="commentIndex" data-index="{{index}}" data-commentindex="{{commentIndex}}"
+				catchtap="clickCommentItem"
+				>
+					<text class="comment-nickname">{{comment.nickName}}</text>
+					<block wx:if="{{comment.reply}}">
+						<text class="comment-conetnt">回复 </text>
+						<text class="comment-nickname">{{comment.reply}}</text>
+					</block>
+					<text class="comment-conetnt">{{comment.content}}</text>
+				</view>
+			</view>
+      </view>
+   </view>
+</view>
+<!-- 正在刷新列表 -->
+<view wx:if="{{refresh && loading && list.length==0}}" class="weui-loadmore">
+	<view class="weui-loading"></view>
+	<view class="weui-loadmore__tips">正在刷新列表</view>
+</view>
+<!-- 加载更多 -->
+<view wx:if="{{haveMoreData && loadMore}}" class="weui-loadmore">
+	<view class="weui-loading"></view>
+	<view class="weui-loadmore__tips">加载更多</view>
+</view>
+<view wx:if="{{!haveMoreData}}" class="weui-loadmore">
+	<view class="weui-loadmore__tips">没有更多数据了</view>
+</view>
+<!-- 评论框 -->
+<view class="comment-add" style="bottom:{{heightBottom !='' ? heightBottom:0}}rpx;" wx:if="{{showCommentAdd}}">
+   <input class="comment-input" placeholder="{{reply.length>0 ? '回复 ' + reply : '评论'}}" focus="{{showCommentAdd}}" bindinput="bindInput" bindfocus="bindFocus" />
+
+<button class="comment-send " type="primary" disabled="{{commentContent.length>0 ? false : true}}" size="mini" catchtap="clickSend">发 送</button>
+    <!-- <input class="comment-input" placeholder="评论" focus="{{showCommentAdd}}"
+         bindinput="bindInput" bindfocus="bindFocus"/>
+    <button class="comment-send" type="primary" catchtap="clickSend"
+    disabled="{{commentContent.length>0 ? false:true}}" size="mini">发 送</button> -->
+</view>
+<view class="comment-add" style="bottom:{{heightBottom !='' ? heightBottom : 0}}rpx;" wx:if="{{showCommentAdd}}">
+
+<input class="comment-input" placeholder="{{reply.length>0 ? '回复 ' + reply : '评论'}}" focus="{{showCommentAdd}}" bindinput="bindInput" bindfocus="bindFocus" />
+
+<button class="comment-send " type="primary" disabled="{{commentContent.length>0 ? false : true}}" size="mini" catchtap="clickSend">发 送</button>
+</view>

@@ -1,0 +1,10 @@
+<!--pages/center/center.wxml-->
+<view>
+  <view class="content">
+      <button bindtap="login">
+          <view class="iconfont icon-weixin1"></view>
+          <text>微信授权登录</text>
+      </button>
+  </view> 
+</view>
+
